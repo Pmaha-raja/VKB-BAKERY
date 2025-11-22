@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VKB Bakery</title>
+  <meta name="description" content="VKB Bakery — Premium cakes, chaat & snacks." />
+  <style>
+    :root{
+      --bg:#0b0b0b;
+      --panel:#111;
+      --muted:#bfbdbd;
+      --accent-1:#ff3d3d;
+      --accent-2:#9b0000;
+      --accent-3:#ff6b6b;
+      --card-shadow: 0 20px 60px rgba(0,0,0,0.7);
+      --radius:14px;
+      --max-width:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#120404 0%, #2a0707 55%, #3b0b0b 100%);
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding-bottom:60px;
+    }
+
+    /* layout container */
+    .wrap{ max-width:var(--max-width); margin:0 auto; padding:22px; }
+
+    /* header */
+    header{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+    .brand{ display:flex; gap:12px; align-items:center; }
+    .logo{
+      width:64px; height:64px; display:grid; place-items:center; border-radius:12px;
+      background: linear-gradient(135deg,var(--accent-1),var(--accent-2)); font-weight:900; font-size:20px;
+      box-shadow: 0 10px 30px rgba(179,0,0,0.18);
+    }
+    .title{ font-size:20px; font-weight:900; margin:0; }
+    .subtitle{ color:var(--muted); font-size:13px; margin-top:3px; }
+
+    /* top controls */
+    .top-controls{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .chip{ padding:8px 12px; border-radius:999px; background:rgba(255,255,255,0.02); color:var(--muted); font-weight:800; font-size:13px; border:1px solid rgba(255,255,255,0.03); }
+    .search{ padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:white; min-width:220px; }
+    .select{ padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:white; }
+
+    /* hero */
+    .hero{
+      display:flex; gap:20px; align-items:center; justify-content:space-between; margin:8px 0 22px 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:18px; padding:22px; border:1px solid rgba(255,255,255,0.03); box-shadow: var(--card-shadow);
+    }
+    .hero-left{ flex:1; min-width:260px; }
+    .hero h1{ margin:0; font-size:36px; font-weight:900; letter-spacing:-0.02em; }
+    .hero p{ margin:10px 0 0; color:var(--muted); max-width:680px; }
+
+    .hero-ctas{ margin-top:16px; display:flex; gap:12px; flex-wrap:wrap; }
+    .btn{ padding:10px 14px; border-radius:12px; font-weight:900; border:0; cursor:pointer; }
+    .btn-primary{ background: linear-gradient(90deg,var(--accent-1),var(--accent-2)); color:white; box-shadow:0 14px 40px rgba(179,0,0,0.12); }
+    .btn-ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.04); }
+
+    .hero-right{ width:360px; display:flex; gap:12px; flex-direction:column; }
+    .card-hero{ padding:12px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); }
+
+    /* gallery grid */
+    .section-title{ display:flex; align-items:center; justify-content:space-between; margin:18px 0 12px 0; gap:12px; }
+    .section-title h2{ margin:0; font-size:20px; font-weight:900; }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap:18px;
+    }
+
+    /* product card */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.006));
+      border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 12px 34px rgba(0,0,0,0.6); transition: transform .22s, box-shadow .22s;
+      position:relative;
+    }
+    .card:hover{ transform: translateY(-8px); box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
+    .thumb{ width:100%; height:160px; object-fit:cover; display:block; background:#111; }
+    .card-body{ padding:12px; display:flex; flex-direction:column; gap:8px; }
+    .card h3{ margin:0; font-size:16px; font-weight:900; color:#fff; }
+    .card p{ margin:0; color:var(--muted); font-size:13px; min-height:36px; }
+    .price-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:6px; }
+    .price{ font-weight:900; color:var(--accent-3); }
+    .add-btn{ padding:8px 10px; border-radius:999px; border:0; font-weight:900; cursor:pointer; color:white; background: linear-gradient(90deg,var(--accent-1),var(--accent-2)); box-shadow:0 8px 26px rgba(179,0,0,0.12); }
+    .ribbon{ position:absolute; right:12px; top:12px; background: linear-gradient(90deg,#ffcb9a,#ff8f6a); padding:6px 10px; border-radius:999px; font-weight:800; color:#6b2d00; font-size:12px; }
+
+    /* cart drawer */
+    .cart-drawer{
+      position:fixed; right:18px; top:84px; width:360px; max-width:92vw; background:linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.95));
+      border-radius:12px; padding:12px; z-index:140; box-shadow: 0 30px 80px rgba(0,0,0,0.85); border:1px solid rgba(255,255,255,0.03); display:none;
+    }
+    .cart-drawer h4{ margin:4px 0 12px 0; font-size:16px; }
+    .cart-list{ display:flex; flex-direction:column; gap:10px; max-height:340px; overflow:auto; padding-right:6px; }
+    .cart-item{ display:flex; gap:10px; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.02); padding:8px; border-radius:10px; }
+    .qty-controls{ display:inline-flex; gap:6px; align-items:center; background:rgba(255,255,255,0.03); padding:4px 6px; border-radius:8px; }
+    .checkout{ display:flex; gap:8px; align-items:center; justify-content:space-between; margin-top:12px; }
+
+    /* footer */
+    footer{ margin-top:28px; padding:28px; background:linear-gradient(180deg,#070707,#0b0b0b); border-radius:10px; color:#ddd; border:1px solid rgba(255,255,255,0.02); }
+
+    /* responsive */
+    @media (max-width:900px){
+      .hero{ flex-direction:column; padding:16px; gap:14px; }
+      .hero-right{ width:100%; }
+      header{ flex-direction:column; align-items:flex-start; gap:12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- HEADER -->
+    <header>
+      <div class="brand">
+        <div class="logo">VKB</div>
+        <div>
+          <div class="title">VKB Bakery</div>
+          <div class="subtitle">Large cake selection</div>
+        </div>
+      </div>
+
+      <div class="top-controls" role="toolbar" aria-label="top controls">
+        <input id="search" class="search" placeholder="Search cakes (name, flavour)..." aria-label="Search cakes" />
+        <select id="typeFilter" class="select" aria-label="Filter type">
+          <option value="all">All types</option>
+          <option value="chocolate">Chocolate</option>
+          <option value="fruit">Fruit</option>
+          <option value="premium">Premium</option>
+          <option value="designer">Designer</option>
+          <option value="classic">Classic</option>
+        </select>
+        <div class="chip" id="countChip">60+ cakes</div>
+        <button class="btn btn-ghost" id="openCartBtn" aria-haspopup="true" aria-controls="cartDrawer">Open Cart</button>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" aria-label="hero">
+      <div class="hero-left">
+        <h1>Handcrafted cakes — Premium & fresh daily</h1>
+        <p>Explore an extensive gallery of cakes — chocolate, fruit, designer themes and classic bakery favourites. Click Add to try the demo cart (orders are simulated).</p>
+        <div class="hero-ctas">
+          <button class="btn btn-primary" onclick="scrollToId('galleryGrid')">Browse Cakes</button>
+          <button class="btn btn-ghost" onclick="scrollToId('contact')">Contact / Order</button>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="card-hero">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-weight:900">Today's Picks</div>
+              <div style="color:var(--muted); font-size:13px; margin-top:6px;">Popular & chef favorites</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.02); padding:6px 10px; border-radius:999px; font-weight:900;">Popular</div>
+          </div>
+
+          <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; gap:10px; align-items:center; justify-content:space-between;">
+              <div style="display:flex; gap:10px; align-items:center;">
+                <div style="font-size:22px;">🍫</div>
+                <div>
+                  <div style="font-weight:900">Chocolate Fudge Cake</div>
+                  <div style="color:var(--muted); font-size:13px;">₹499 • Rich & moist</div>
+                </div>
+              </div>
+              <button class="add-btn" onclick="addToCart(1)">Add</button>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center; justify-content:space-between;">
+              <div style="display:flex; gap:10px; align-items:center;">
+                <div style="font-size:22px;">🦄</div>
+                <div>
+                  <div style="font-weight:900">Unicorn Cake</div>
+                  <div style="color:var(--muted); font-size:13px;">Party special</div>
+                </div>
+              </div>
+              <button class="add-btn" onclick="addToCart(42)">Add</button>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+          <div style="flex:1; background:rgba(255,255,255,0.02); padding:12px; border-radius:10px;">
+            <div style="color:var(--muted); font-size:13px;">Pickup</div>
+            <div style="font-weight:900">Ready in 30 mins</div>
+          </div>
+          <div style="flex:1; background:rgba(255,255,255,0.02); padding:12px; border-radius:10px;">
+            <div style="color:var(--muted); font-size:13px;">Custom Orders</div>
+            <div style="font-weight:900">Call: +91 99433 49901</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <div class="section-title">
+      <h2 id="galleryGrid">Delicious Cakes</h2>
+      <div style="color:var(--muted)"><span id="visibleCount">60</span> items</div>
+    </div>
+
+    <main>
+      <div class="grid" id="gallery"></div>
+    </main>
+
+    <!-- CART DRAWER -->
+    <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-labelledby="cartTitle" aria-hidden="true">
+      <h4 id="cartTitle">Your Cart</h4>
+      <div class="cart-list" id="cartList">
+        <div class="muted">Your cart is empty. Add cakes to get started.</div>
+      </div>
+      <div class="checkout">
+        <div>
+          <div style="color:var(--muted); font-size:13px;">Subtotal</div>
+          <div style="font-weight:900; font-size:18px;" id="cartSubtotal">₹0.00</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button class="btn btn-primary" onclick="checkout()">Checkout</button>
+          <button class="btn btn-ghost" onclick="closeCart()">Close</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CONTACT / FOOTER -->
+    <footer id="contact" style="margin-top:28px;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px;">
+        <div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <div style="width:52px;height:52px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));font-weight:900">VKB</div>
+            <div>
+              <div style="font-weight:900">VKB Bakery</div>
+              <div style="color:var(--muted);">Freshly baked, since 2010</div>
+            </div>
+          </div>
+          <p style="color:var(--muted); margin-top:10px;">Handmade cakes, snacks & chaat — prepared fresh daily. Custom orders & party cakes available.</p>
+        </div>
+
+        <div>
+          <h4 style="margin:0 0 8px 0;">Contact</h4>
+          <p style="color:var(--muted); margin:0 0 6px 0;">Ravathure Pirivu</p>
+          <p style="color:var(--muted); margin:0 0 6px 0;">📞 +91 99433 49901</p>
+          <p style="color:var(--muted); margin:0 0 6px 0;">✉ hello@vkbbakery.com</p>
+        </div>
+
+        <div>
+          <h4 style="margin:0 0 8px 0;">Opening Hours</h4>
+          <p style="color:var(--muted); margin:0 0 6px 0;">Mon — Sun</p>
+          <p style="font-weight:900; margin:0;">24/7 WORKING </p>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; text-align:center; color:#9b9b9b;">
+        © 2025 VKB Bakery. All rights reserved.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    /****************************************
+     * Image path (the generated placeholder)
+     * Developer-provided local file path used as image src:
+     ****************************************/
+    const IMAGE_PLACEHOLDER = '/mnt/data/A_webpage_for_VKB_Bakery_displays_a_selection_of_c.png';
+
+    /****************************************
+     * Cake dataset (60 items) - id, name, desc, price, type
+     ****************************************/
+    const CAKES = [
+      /* Chocolate Series */
+      { id:1, name:'Chocolate Truffle Cake', desc:'Rich & Classic', price:499, type:'chocolate'},
+      { id:2, name:'Belgium Chocolate Cake', desc:'Premium cocoa', price:599, type:'chocolate' },
+      { id:3, name:'Dark Chocolate Ganache Cake', desc:'Extra rich', price:649, type:'chocolate' },
+      { id:4, name:'Milk Chocolate Cream Cake', desc:'Kids favourite', price:399, type:'chocolate' },
+      { id:5, name:'Chocolate Mousse Cake', desc:'Soft creamy layers', price:529, type:'chocolate' },
+      { id:6, name:'Choco Coconut Delight', desc:'Coconut + chocolate', price:459, type:'chocolate' },
+      { id:7, name:'Chocolate Lava Cake', desc:'Hot lava inside', price:129, type:'chocolate' },
+      { id:8, name:'Strawberry Choco Fusion', desc:'Sweet + choco', price:549, type:'chocolate' },
+      { id:9, name:'Chocolate Thunder Cake', desc:'Heavy chocolate punch', price:699, type:'chocolate' },
+      { id:10, name:'Choco Celebration Cake', desc:'Party special', price:799, type:'chocolate' },
+
+      /* Fruit Cakes */
+      { id:11, name:'Fresh Strawberry Cake', desc:'Juicy strawberries', price:499, type:'fruit' },
+      { id:12, name:'Mango Cream Cake', desc:'Sheer mango delight', price:549, type:'fruit' },
+      { id:13, name:'Pineapple Fresh Cream Cake', desc:'Tropical & fresh', price:459, type:'fruit' },
+      { id:14, name:'Apple Cinnamon Cake', desc:'Warm cinnamon notes', price:479, type:'fruit' },
+      { id:15, name:'Black Grapes Cake', desc:'Unique fruity flavour', price:499, type:'fruit' },
+      { id:16, name:'Orange Zest Cream Cake', desc:'Zesty & bright', price:449, type:'fruit' },
+      { id:17, name:'Watermelon Fusion Cake', desc:'Light & refreshing', price:429, type:'fruit' },
+      { id:18, name:'Banana Caramel Cake', desc:'Sweet banana + caramel', price:459, type:'fruit' },
+      { id:19, name:'Cherry Bliss Cake', desc:'Cherry topped', price:519, type:'fruit' },
+      { id:20, name:'Kiwi Layer Cake', desc:'Tangy & fresh', price:499, type:'fruit' },
+
+      /* Cream & Milk Cakes */
+      { id:21, name:'Fresh Cream Cake', desc:'Classic fresh cream', price:399, type:'classic',img:'https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmlydGhkYXklMjBjYWtlfGVufDB8fDB8fHww' },
+      { id:22, name:'Whipped Cream Soft Cake', desc:'Light sponge', price:379, type:'classic' },
+      { id:23, name:'Milk Bar Cake', desc:'Milky indulgence', price:429, type:'classic' },
+      { id:24, name:'Chocolate Milk Cake', desc:'Milk-chocolate', price:419, type:'chocolate' },
+      { id:25, name:'Honey Cream Cake', desc:'Subtle honey notes', price:449, type:'classic' },
+      { id:26, name:'Sponge Fresh Cream Cake', desc:'Soft & fluffy', price:389, type:'classic' },
+
+      /* Premium / Trendy Cakes */
+      { id:27, name:'Red Velvet Cake', desc:'Velvety red layers', price:599, type:'premium' },
+      { id:28, name:'Rainbow Layer Cake', desc:'Fun colourful layers', price:699, type:'premium' },
+      { id:29, name:'Blueberry Cheesecake', desc:'Tangy & creamy', price:749, type:'premium' },
+      { id:30, name:'Classic Cheesecake', desc:'Smooth & dense', price:699, type:'premium' },
+      { id:31, name:'Ice Cream Cake', desc:'Frozen delight', price:799, type:'premium' },
+      { id:32, name:'Butterscotch Caramel Cake', desc:'Caramel goodness', price:569, type:'premium' },
+      { id:33, name:'Oreo Cake', desc:'Cookies & cream', price:499, type:'premium' },
+      { id:34, name:'KitKat Cake', desc:'Crunchy kitkat topping', price:579, type:'premium' },
+      { id:35, name:'Ferrero Rocher Cake', desc:'Hazelnut luxury', price:899, type:'premium' },
+      { id:36, name:'Peanut Butter Cake', desc:'Nutty & rich', price:499, type:'premium' },
+      { id:37, name:'Mixed Berry Layer Cake', desc:'Berries & cream', price:649, type:'premium' },
+      { id:38, name:'Caramel Drizzle Cake', desc:'Sticky caramel', price:499, type:'premium' },
+
+      /* Designer / Party Cakes */
+      { id:39, name:'Barbie Doll Cake', desc:'Kids party special', price:1200, type:'designer' },
+      { id:40, name:'Car Theme Cake', desc:'Racing car design', price:1200, type:'designer' },
+      { id:41, name:'Gaming Theme Cake', desc:'Gamer style', price:1199, type:'designer' },
+      { id:42, name:'Unicorn Cake', desc:'Magical unicorn', price:1499, type:'designer' },
+      { id:43, name:'Football Theme Cake', desc:'For the sport lover', price:1299, type:'designer' },
+      { id:44, name:'Music Theme Cake', desc:'Notes & instruments', price:1299, type:'designer' },
+      { id:45, name:'Magic Theme Cake', desc:'Surprise elements', price:1399, type:'designer' },
+      { id:46, name:'Heart Shape Cake', desc:'Romantic special', price:999, type:'designer' },
+      { id:47, name:'Engagement Ring Cake', desc:'Elegant & gold', price:1999, type:'designer' },
+      { id:48, name:'Photo Print Cake', desc:'Edible photo on top', price:899, type:'designer' },
+
+      /* Classic Bakery Cakes */
+      { id:49, name:'Plum Cake', desc:'Festive classic', price:549, type:'classic' },
+      { id:50, name:'Date & Walnut Cake', desc:'Nutty & dense', price:599, type:'classic' },
+      { id:51, name:'Tea Cake', desc:'Perfect with tea', price:299, type:'classic' },
+      { id:52, name:'Lemon Cake', desc:'Citrus tang', price:369, type:'classic' },
+      { id:53, name:'Marble Cake', desc:'Vanilla + chocolate swirl', price:329, type:'classic' },
+      { id:54, name:'Coconut Cake', desc:'Coconut flakes', price:399, type:'classic' },
+      { id:55, name:'Carrot Cake', desc:'Carrot & walnut', price:479, type:'classic' },
+      { id:56, name:'Vanilla Cream Cake', desc:'Simple & elegant', price:339, type:'classic' },
+      { id:57, name:'Butter Sponge Cake', desc:'Soft buttery sponge', price:319, type:'classic' },
+      { id:58, name:'Dry Fruit Cake', desc:'Loaded with dry fruits', price:699, type:'classic' },
+      { id:59, name:'Black Forest Cake', desc:'Chocolate & cherries', price:599, type:'classic' },
+      { id:60, name:'White Forest Cake', desc:'Light cream & cherries', price:599, type:'classic' }
+    ];
+
+    /****************************************
+     * Render helpers
+     ****************************************/
+    const galleryEl = document.getElementById('gallery');
+    const visibleCountEl = document.getElementById('visibleCount');
+    const countChip = document.getElementById('countChip');
+    const searchInput = document.getElementById('search');
+    const typeFilter = document.getElementById('typeFilter');
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; });
+    }
+
+    function renderList(list){
+      galleryEl.innerHTML = '';
+      list.forEach(item => {
+        const at = document.createElement('article');
+        at.className = 'card';
+        at.innerHTML = `
+          <div style="position:relative">
+            <img class="thumb" src="${IMAGE_PLACEHOLDER}" alt="${escapeHtml(item.name)}">
+            ${item.type === 'premium' || item.type === 'designer' ? '<div class="ribbon">Premium</div>' : ''}
+          </div>
+          <div class="card-body">
+            <h3>${escapeHtml(item.name)}</h3>
+            <p>${escapeHtml(item.desc)}</p>
+            <div class="price-row">
+              <div class="price">₹${item.price.toFixed(2)}</div>
+              <button class="add-btn" onclick="addToCart(${item.id})">Add</button>
+            </div>
+          </div>
+        `;
+        galleryEl.appendChild(at);
+      });
+      visibleCountEl.textContent = list.length;
+      countChip.textContent = `${list.length} items`;
+    }
+
+    // initial render
+    renderList(CAKES);
+
+    /****************************************
+     * Search & filter
+     ****************************************/
+    function applyFilters(){
+      const q = (searchInput.value || '').trim().toLowerCase();
+      const type = typeFilter.value;
+      const results = CAKES.filter(c => {
+        if(type !== 'all' && c.type !== type) return false;
+        if(q && !(c.name.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q))) return false;
+        return true;
+      });
+      renderList(results);
+    }
+    searchInput.addEventListener('input', applyFilters);
+    typeFilter.addEventListener('change', applyFilters);
+
+    /****************************************
+     * Simple cart (client-only, demo)
+     ****************************************/
+    let CART = []; // {id, qty}
+
+    function findInCart(id){ return CART.find(i=>i.id===id); }
+
+    function addToCart(id){
+      const item = CAKES.find(c=>c.id===id);
+      if(!item) return;
+      const found = findInCart(id);
+      if(found) found.qty += 1;
+      else CART.push({ id, qty:1 });
+      showToast(`${item.name} added to cart`);
+      updateCartUI();
+      openCart();
+    }
+
+    function showToast(msg){
+      const t = document.createElement('div');
+      t.textContent = msg;
+      Object.assign(t.style, {
+        position:'fixed', right:'18px', bottom:'18px', background:'#111', color:'#fff', padding:'10px 14px', borderRadius:'10px', zIndex:9999, boxShadow:'0 10px 30px rgba(0,0,0,0.6)'
+      });
+      document.body.appendChild(t);
+      setTimeout(()=> t.style.opacity = '0', 1400);
+      setTimeout(()=> t.remove(), 1800);
+    }
+
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartListEl = document.getElementById('cartList');
+    const cartSubtotalEl = document.getElementById('cartSubtotal');
+
+    function updateCartUI(){
+      cartListEl.innerHTML = '';
+      if(CART.length === 0){
+        cartListEl.innerHTML = '<div class="muted">Your cart is empty. Add something delicious!</div>';
+        cartSubtotalEl.textContent = '₹0.00';
+        return;
+      }
+      CART.forEach(ci => {
+        const cake = CAKES.find(c=>c.id===ci.id);
+        const el = document.createElement('div');
+        el.className = 'cart-item';
+        el.innerHTML = `
+          <div style="display:flex; gap:8px; align-items:center;">
+            <div style="font-size:20px;">${getEmojiFor(cake.type)}</div>
+            <div>
+              <div style="font-weight:900">${escapeHtml(cake.name)}</div>
+              <div style="color:var(--muted); font-size:13px;">₹${cake.price.toFixed(2)}</div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+            <div class="qty-controls">
+              <button onclick="changeQty(${ci.id}, -1)" style="background:transparent; border:0; color:var(--muted); font-weight:900; cursor:pointer">−</button>
+              <div style="min-width:22px; text-align:center; font-weight:900">${ci.qty}</div>
+              <button onclick="changeQty(${ci.id}, 1)" style="background:transparent; border:0; color:var(--muted); font-weight:900; cursor:pointer">+</button>
+            </div>
+            <button onclick="removeFromCart(${ci.id})" style="background:transparent; border:0; color:var(--muted); font-size:12px; cursor:pointer">Remove</button>
+          </div>
+        `;
+        cartListEl.appendChild(el);
+      });
+      const subtotal = CART.reduce((s,i)=> {
+        const cake = CAKES.find(c=>c.id===i.id);
+        return s + cake.price * i.qty;
+      }, 0);
+      cartSubtotalEl.textContent = `₹${subtotal.toFixed(2)}`;
+    }
+
+    function changeQty(id, delta){
+      const it = findInCart(id);
+      if(!it) return;
+      it.qty += delta;
+      if(it.qty <= 0) CART = CART.filter(x=>x.id!==id);
+      updateCartUI();
+    }
+
+    function removeFromCart(id){
+      CART = CART.filter(x=>x.id!==id);
+      updateCartUI();
+    }
+
+    function openCart(){
+      cartDrawer.style.display = 'block';
+      cartDrawer.setAttribute('aria-hidden','false');
+      updateCartUI();
+    }
+    function closeCart(){
+      cartDrawer.style.display = 'none';
+      cartDrawer.setAttribute('aria-hidden','true');
+    }
+
+    document.getElementById('openCartBtn').addEventListener('click', () => {
+      if(cartDrawer.style.display === 'block') closeCart(); else openCart();
+    });
+
+    function checkout(){
+      if(CART.length === 0){ alert('Your cart is empty.'); return; }
+      const lines = CART.map(i => {
+        const cake = CAKES.find(c=>c.id===i.id);
+        return `${i.qty} x ${cake.name} — ₹${(cake.price * i.qty).toFixed(2)}`;
+      }).join('\n');
+      const subtotal = CART.reduce((s,i)=> s + CAKES.find(c=>c.id===i.id).price * i.qty, 0);
+      const msg = `Order summary:\n${lines}\n\nSubtotal: ₹${subtotal.toFixed(2)}\n\n(This is a demo — no real order will be placed.)`;
+      if(confirm(msg)){
+        showToast('Order placed (demo). We will contact you soon.');
+        CART = [];
+        updateCartUI();
+        closeCart();
+      }
+    }
+
+    function getEmojiFor(type){
+      if(type === 'chocolate') return '🍫';
+      if(type === 'fruit') return '🍓';
+      if(type === 'premium') return '🧁';
+      if(type === 'designer') return '🎂';
+      return '🍰';
+    }
+
+    // click outside cart to close
+    document.addEventListener('click', function(e){
+      const drawer = cartDrawer;
+      const openBtn = document.getElementById('openCartBtn');
+      if(!drawer.contains(e.target) && !openBtn.contains(e.target)){
+        if(drawer.style.display === 'block') closeCart();
+      }
+    });
+
+    // small utility: scroll to id
+    function scrollToId(id){
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+  </script>
+</body>
+</html>
